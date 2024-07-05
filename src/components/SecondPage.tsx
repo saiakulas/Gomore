@@ -10,6 +10,20 @@ interface Post {
   body: string;
 }
 
+const CustomToolbar = () => {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarQuickFilter
+        debounceInput={500}
+        className="bg-[#DD4901] text-black rounded"
+      />
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+      <GridToolbarDensitySelector />
+    </GridToolbarContainer>
+  );
+};
+
 const SecondPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,7 +80,7 @@ const SecondPage: React.FC = () => {
   const handleExport = () => {
     try {
       const escapeCsvValue = (value: string) => `"${value.replace(/"/g, '""')}"`;
-      const csvContent = `User ID,ID,Title,Body\n${posts.map(post => 
+      const csvContent = `User ID,ID,Title,Body\n${posts.map(post =>
         `${post.userId},${post.id},${escapeCsvValue(post.title)},${escapeCsvValue(post.body)}`
       ).join('\n')}`;
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -117,23 +131,11 @@ const SecondPage: React.FC = () => {
                 <DataGrid
                   rows={posts}
                   columns={columns}
-                  pageSize={10}
-                  rowsPerPageOptions={[10, 25, 50]}
                   disableColumnMenu
                   disableColumnSelector
-                  disableSelectionOnClick
+                  disableRowSelectionOnClick
                   components={{
-                    Toolbar: () => (
-                      <GridToolbarContainer>
-                        <GridToolbarQuickFilter
-                          debounceInput={500}
-                          className="bg-[#DD4901] text-black rounded"
-                        />
-                        <GridToolbarFilterButton />
-                        <GridToolbarExport />
-                        <GridToolbarDensitySelector />
-                      </GridToolbarContainer>
-                    ),
+                    Toolbar: CustomToolbar,
                   }}
                   className="MuiDataGrid-root"
                 />
