@@ -117,20 +117,16 @@ const SecondPage: React.FC = () => {
                 <DataGrid
                   rows={posts}
                   columns={columns}
-                  initialState={{
-                    pagination: {
-                      paginationModel: { pageSize: 10 },
-                    },
-                  }}
-                  pageSizeOptions={[10, 25, 50]}
+                  pageSize={10}
+                  rowsPerPageOptions={[10, 25, 50]}
                   disableColumnMenu
                   disableColumnSelector
-                  disableRowSelectionOnClick
+                  disableSelectionOnClick
                   components={{
                     Toolbar: () => (
                       <GridToolbarContainer>
                         <GridToolbarQuickFilter
-                          quickFilterProps={{ debounceMs: 500 }}
+                          debounceInput={500}
                           className="bg-[#DD4901] text-black rounded"
                         />
                         <GridToolbarFilterButton />
@@ -139,48 +135,7 @@ const SecondPage: React.FC = () => {
                       </GridToolbarContainer>
                     ),
                   }}
-                  sx={{
-                    '& .MuiDataGrid-root': {
-                      backgroundColor: 'white',
-                    },
-                    '& .MuiDataGrid-columnHeader': {
-                      backgroundColor: 'white',
-                      color: 'black',
-                      fontWeight: 'bold',
-                    },
-                    '& .MuiDataGrid-cell': {
-                      color: 'black',
-                      borderBottom: '1px solid #e5e7eb',
-                    },
-                    '& .MuiDataGrid-row:hover': {
-                      backgroundColor: '#f5f5f5',
-                    },
-                    '& .MuiDataGrid-footerContainer': {
-                      backgroundColor: '#DD4901',
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-root': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-toolbar': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-actions': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-selectLabel': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-selectIcon': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-select': {
-                      color: 'white',
-                    },
-                    '& .MuiTablePagination-displayedRows': {
-                      color: 'white',
-                    },
-                  }}
+                  className="MuiDataGrid-root"
                 />
               </div>
             </>
