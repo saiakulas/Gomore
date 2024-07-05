@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import DepartmentList from './DepartmentList';
-import { DataGrid, GridColDef, GridToolbarContainer, GridToolbarExport, GridToolbarDensitySelector, GridToolbarQuickFilter, GridToolbarFilterButton } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 interface Post {
   userId: number;
@@ -9,20 +9,6 @@ interface Post {
   title: string;
   body: string;
 }
-
-const CustomToolbar = () => {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarQuickFilter
-        debounceInput={500}
-        className="bg-[#DD4901] text-black rounded"
-      />
-      <GridToolbarFilterButton />
-      <GridToolbarExport />
-      <GridToolbarDensitySelector />
-    </GridToolbarContainer>
-  );
-};
 
 const SecondPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -80,7 +66,7 @@ const SecondPage: React.FC = () => {
   const handleExport = () => {
     try {
       const escapeCsvValue = (value: string) => `"${value.replace(/"/g, '""')}"`;
-      const csvContent = `User ID,ID,Title,Body\n${posts.map(post =>
+      const csvContent = `User ID,ID,Title,Body\n${posts.map(post => 
         `${post.userId},${post.id},${escapeCsvValue(post.title)},${escapeCsvValue(post.body)}`
       ).join('\n')}`;
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -131,12 +117,21 @@ const SecondPage: React.FC = () => {
                 <DataGrid
                   rows={posts}
                   columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 5,
+                      },
+                    },
+                  }}
+                  pageSizeOptions={[5]}
+                  checkboxSelection
+                  disableRowSelectionOnClick
+                  
                   disableColumnMenu
                   disableColumnSelector
-                  disableRowSelectionOnClick
-                  components={{
-                    Toolbar: CustomToolbar,
-                  }}
+                  
+                  
                   className="MuiDataGrid-root"
                 />
               </div>
